@@ -15,8 +15,29 @@ groceryItemInformation = [
 %% Section 1 - Individual Item Processing
 function itemTotal = individualItem(itemNumber,groceryItemNames,groceryItemInformation)
 % Type Section 1 Below
+    itemName = groceryItemNames(itemNumber);
+    itemPrice = groceryItemInformation(1,itemNumber);
+    itemDiscount = groceryItemInformation(2,itemNumber);
+    itemTaxPercent = groceryItemInformation(3,itemNumber);
+    itemAmount = groceryItemInformation(4,itemNumber);
 
+    % Add discount
+    itemReduced = itemPrice - itemDiscount;
 
+    % Tax calculation
+    itemTaxAmount = itemReduced * itemTaxPercent/100;
+
+    % Adding tax to total price
+    itemFinalPrice = itemReduced + itemTaxAmount;
+
+    % Final Price * Quantity
+    itemTotal = itemFinalPrice * itemAmount;
+
+    % Display code
+    disp("-------------------------------------")
+    disp("Purchased "+itemAmount+" "+itemName)
+    fprintf("Original Price: $%.2f \nDiscount: $%.2f \nFinal Price %.0f x $.2f\n",itemPrice,itemDiscount,itemTaxAmount,itemAmount,itemFinalPrice,itemTotal)
+    disp(" ")
 
 % Type Section 1 Above
 end
@@ -25,7 +46,35 @@ end
 function allItems(groceryItemNames,groceryItemInformation)
 % Type Section 2 Below
 
+% Empty List
+itemTotals = [0,0,0,0,0];
 
+% Loop section 1 using items 1-5
+for i = 1:5
+    itemTotals(i) = individualItem(i,groceryItemNames,groceryItemInformation);
+end
+
+% Calculate total sum
+totalCost = sum(itemTotals);
+
+% Calculate average based on number of products
+averageProductCost = mean(itemTotals);
+
+% Calculate average based on total quantity
+averageItemCost = totalCost/sum(groceryItemInformation(4,:));
+
+% Find which item had the least spend (and how much)
+[leastItemCost, leastItemNumber] = min(itemTotals);
+
+% Find name of the least spent item
+leastItemName = groceryItemNames(leastItemNumber);
+
+% Find the name of the most spent item
+mostItemName = groceryItemNames(mostItemNumber);
+
+disp("-------------------------------------")
+fprintf("Your shopping trip cost: $%.2f \nThe average cost per item: $%.2f \nThe average cost per product: $%.2f \n",totalCost,averageItemCost,averageProductCost)
+% PLEASE FINISH ME!!!!!!!!!!!!
 
 % Type Section 2 Above
 end
